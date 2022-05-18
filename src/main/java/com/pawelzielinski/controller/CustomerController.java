@@ -1,19 +1,25 @@
-package com.pawelzielinski.controler;
+package com.pawelzielinski.controller;
 
 import com.pawelzielinski.model.Customer;
+import com.pawelzielinski.model.PowerLimitation;
 import com.pawelzielinski.repository.CustomerRepository;
+import com.pawelzielinski.repository.PowerLimitationRepository;
+import com.pawelzielinski.service.PowerLimitationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
-public class CustomerControler {
+public class CustomerController {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private PowerLimitationRepository powerLimitationRepository;
+
+    @Autowired
+    private PowerLimitationService powerLimitationService;
 
     @PostMapping("/addCustomer")
     public ResponseEntity<String> addCustomer(@RequestBody Customer customer){
@@ -32,7 +38,6 @@ public class CustomerControler {
 
     @PutMapping("/updateCustomer/{id}")
     public ResponseEntity<String> updateCustomer(@RequestBody Customer customer, @PathVariable Integer id){
-
         customer.setId(customerRepository.getById(id).getId());
         customerRepository.save(customer);
         return ResponseEntity.ok("Customer updated");
@@ -41,9 +46,8 @@ public class CustomerControler {
     @DeleteMapping("/deleteCustomer/{id}")
     public ResponseEntity<String> deleteCustomerById(@PathVariable Integer id){
         Customer customer = customerRepository.getById(id);
-        String txt = "Customer "+ customer.getFirstName() + " " + customer.getLastName() + " deleted!";
         customerRepository.deleteById(id);
-        return ResponseEntity.ok(txt);
+        return ResponseEntity.ok("Customer "+ customer.getFirstName() + " " + customer.getLastName() + " deleted!");
     }
 
 

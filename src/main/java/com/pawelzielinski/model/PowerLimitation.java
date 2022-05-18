@@ -1,8 +1,11 @@
 package com.pawelzielinski.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity
+@Data
 @Table(name = "power_limitation")
 public class PowerLimitation {
 
@@ -25,7 +28,7 @@ public class PowerLimitation {
         this.zipCode = zipCode;
     }
 
-    public int getId() {
+ /*   public int getId() {
         return id;
     }
 
@@ -55,5 +58,5 @@ public class PowerLimitation {
 
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
-    }
+    }*/
 }
