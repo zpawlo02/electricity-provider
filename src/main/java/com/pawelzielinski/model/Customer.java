@@ -3,6 +3,7 @@ package com.pawelzielinski.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.pawelzielinski.interfaces.SimpleValidation;
 import com.sun.istack.NotNull;
+import lombok.Data;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@Data
 @Table(name = "customer")
 public class Customer implements SimpleValidation {
 
@@ -79,53 +81,5 @@ public class Customer implements SimpleValidation {
 
 
         return 0;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public int getKwValue() {
-        return kwValue;
-    }
-
-    public void setKwValue(int kwValue) {
-        this.kwValue = kwValue;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
     }
 }

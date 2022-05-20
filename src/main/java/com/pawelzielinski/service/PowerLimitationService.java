@@ -11,10 +11,18 @@ public class PowerLimitationService {
     @Autowired
     private PowerLimitationRepository powerLimitationRepository;
 
-    public void addPowerLimitation(PowerLimitation powerLimitation){
-        powerLimitationRepository.save(powerLimitation);
+    public PowerLimitation addPowerLimitation(PowerLimitation powerLimitation){
+        if(powerLimitation.getZipCode() == null || powerLimitation.getZipCode().isEmpty() || powerLimitation.getZipCode().isBlank()){
+            return null;
+        }
+        return powerLimitationRepository.save(powerLimitation);
     }
     public void updatePowerLimitation(PowerLimitation powerLimitation){
         addPowerLimitation(powerLimitation); // same code will be used
     }
+
+    public PowerLimitation getPowerLimitationByZipCode(String zipCode){
+        return powerLimitationRepository.getByZipCode(zipCode);
+    }
+
 }
