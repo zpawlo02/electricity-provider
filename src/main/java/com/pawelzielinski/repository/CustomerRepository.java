@@ -10,12 +10,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CustomerRepository {
+public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
     Customer save(Customer customer);
     List<Customer> findAll();
     Customer getById(Integer id);
     void deleteById(Integer id);
-    List<Customer> findAll(Specification<Customer> spec);
 
 }

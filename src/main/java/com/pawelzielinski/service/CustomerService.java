@@ -1,19 +1,14 @@
 package com.pawelzielinski.service;
 
-import com.pawelzielinski.criteria.SearchCriteria;
 import com.pawelzielinski.model.Customer;
 import com.pawelzielinski.model.PowerLimitation;
 import com.pawelzielinski.repository.CustomerRepository;
+import com.pawelzielinski.repository.CustomerRepositoryImpl;
 import com.pawelzielinski.repository.PowerLimitationRepository;
-import com.pawelzielinski.specifications.CustomerSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -28,6 +23,8 @@ public class CustomerService {
 
     @Autowired
     private PowerLimitationService powerLimitationService;
+    @Autowired
+    private CustomerRepositoryImpl customerRepositoryImpl = new CustomerRepositoryImpl();
 
     private static final Logger logger = LoggerFactory.getLogger( CustomerService.class);
 
@@ -54,10 +51,7 @@ public class CustomerService {
     }
 
     public List<Customer> getAllByFirstName(String firstName){
-        SearchCriteria searchCriteria = new SearchCriteria("firstName", ":", firstName);
-        CustomerSpecification customerSpecification = new CustomerSpecification(searchCriteria);
-        logger.info(customerSpecification.toString());
-        return customerRepository.findAll(Specification.where(customerSpecification));
+        return customerRepositoryImpl.findAllByFirsName(firstName);
     }
 
     public Customer addCustomer(Customer customer) {

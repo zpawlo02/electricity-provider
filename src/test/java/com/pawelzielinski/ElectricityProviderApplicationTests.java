@@ -175,7 +175,7 @@ class ElectricityProviderApplicationTests {
 		customerService.addCustomer(customer2);
 
 		//THAN
-		List<Customer> customerList = customerService.getAllByFirstName("Marian");
+		List<Customer> customerList = customerService.getAllByFirstName("Jan");
 
 		logger.info(customerList.toString());
 		assertEquals(1, customerList.size());

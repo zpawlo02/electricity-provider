@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-interface SqlCustomerRepository extends CustomerRepository, JpaRepository<Customer, Integer>, JpaSpecificationExecutor<Customer> {
+interface SqlCustomerRepository {
 
 }
