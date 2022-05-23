@@ -1,16 +1,21 @@
 package com.pawelzielinski.service;
 
+import com.google.common.collect.Maps;
 import com.pawelzielinski.model.Customer;
 import com.pawelzielinski.model.PowerLimitation;
 import com.pawelzielinski.repository.CustomerRepository;
 import com.pawelzielinski.repository.CustomerRepositoryImpl;
 import com.pawelzielinski.repository.PowerLimitationRepository;
+import com.querydsl.core.Tuple;
+import com.querydsl.jpa.impl.JPAQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerService {
@@ -51,8 +56,37 @@ public class CustomerService {
     }
 
     public List<Customer> getAllByFirstName(String firstName){
+        return customerRepositoryImpl.findAllByFirsName(firstName).fetch();
+    }
 
-        return customerRepositoryImpl.findAllByFirsName(firstName);
+    public List<Customer> getAllByKwValueEquals(int kwValue){
+        return customerRepositoryImpl.findAllByKwValueEquals(kwValue).fetch();
+    }
+
+    public List<Customer> getAllByCountry(String country){
+        return customerRepositoryImpl.findAllByCountry(country).fetch();
+    }
+
+    public List<Customer> filterBy(String keyword, String value){
+        switch (keyword){
+            case "firstName":
+                return getAllByFirstName(value);
+            case "Country":
+                return getAllByCountry(value);
+            case "kvValue":
+                return getAllByKwValueEquals(Integer.parseInt(value));
+        }
+        return null;
+    }
+
+    //objectName is a name of variable which can be used to sort
+    // firstName, lastName, kwValue
+    public List<Customer> getAllSortedDesc(String objectName){
+        return customerRepositoryImpl.sortDesc(objectName).fetch();
+    }
+
+    public List<Customer> getAllSortedAsc(String objectName){
+        return customerRepositoryImpl.sortAsc(objectName).fetch();
     }
 
     public Customer addCustomer(Customer customer) {
@@ -92,5 +126,21 @@ public class CustomerService {
         }
         logger.info("Sprawdź dane, są niepoprawne!");
         return null;
+    }
+
+    //we are getting from List<tuple> three values: firstName, lastName and count of duplicates
+    //which means how many services got one customer and next we are getting map from it
+    //stream is filtered if count value is not greater than 1 value is not added to map
+    public Map<Object, Object> getCustomerNameAndServicesCount(){
+        return customerRepositoryImpl
+                .findAllDuplicatesGroupByFirstNameAndLastName()
+                .stream()
+                .filter(t -> t.get(2, Long.class) > 1L).
+                collect(
+                        Collectors.toMap(
+                                t ->  t.get(0, Object.class) + " " + t.get(1, Object.class),
+                                t -> t.get(2, Object.class)
+                        ));
+
     }
 }

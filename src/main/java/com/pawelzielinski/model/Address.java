@@ -1,10 +1,12 @@
 package com.pawelzielinski.model;
 
 import com.pawelzielinski.interfaces.SimpleValidation;
+import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity
+@Data
 @Table(name = "address")
 public class Address implements SimpleValidation {
 
@@ -92,70 +94,6 @@ public class Address implements SimpleValidation {
         }
 
         return 0;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getVoivodeship() {
-        return voivodeship;
-    }
-
-    public void setVoivodeship(String voivodeship) {
-        this.voivodeship = voivodeship;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public String getStreetName() {
-        return streetName;
-    }
-
-    public void setStreetName(String streetName) {
-        this.streetName = streetName;
-    }
-
-    public int getHouseNo() {
-        return houseNo;
-    }
-
-    public void setHouseNo(int houseNo) {
-        this.houseNo = houseNo;
-    }
-
-    public int getApartmentNo() {
-        return apartmentNo;
-    }
-
-    public void setApartmentNo(int apartmentNo) {
-        this.apartmentNo = apartmentNo;
     }
 
 }

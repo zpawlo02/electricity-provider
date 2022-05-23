@@ -60,6 +60,24 @@ public class CustomerController {
         return ResponseEntity.ok("Użytkownik usunięty!");
     }
 
+    @GetMapping("/customer/sortByDesc")
+    public ResponseEntity<String> sortByDesc(@PathVariable String keyword){
+        return ResponseEntity.ok(customerService.getAllSortedDesc(keyword).toString());
+    }
+
+    @GetMapping("/customer/sortByAsc")
+    public ResponseEntity<String> sortByAsc(@PathVariable String keyword){
+        return ResponseEntity.ok(customerService.getAllSortedAsc(keyword).toString());
+    }
+    @GetMapping("/customer/filterBy")
+    public ResponseEntity<String> filterBy(@PathVariable String keyword, String value){
+        return ResponseEntity.ok(customerService.filterBy(keyword, value).toString());
+    }
+
+    @GetMapping("/customer/duplicates")
+    public ResponseEntity<String> getDuplicates(){
+        return ResponseEntity.ok(customerService.getCustomerNameAndServicesCount().toString());
+    }
 
 
 }

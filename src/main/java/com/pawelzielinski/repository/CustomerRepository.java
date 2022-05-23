@@ -1,7 +1,6 @@
 package com.pawelzielinski.repository;
 
 import com.pawelzielinski.model.Customer;
-import com.pawelzielinski.specifications.CustomerSpecification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class PowerLimitationService {
 
     @Autowired
-    private PowerLimitationRepository powerLimitationRepository;
+    public PowerLimitationRepository powerLimitationRepository;
 
     public PowerLimitation addPowerLimitation(PowerLimitation powerLimitation){
         if(powerLimitation.getZipCode() == null || powerLimitation.getZipCode().isEmpty() || powerLimitation.getZipCode().isBlank()){
