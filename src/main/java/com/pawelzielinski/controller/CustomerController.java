@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class CustomerController {
 
     @Autowired
@@ -30,7 +31,6 @@ public class CustomerController {
     @PostMapping("/addCustomer")
     public ResponseEntity<String> addCustomer(@RequestBody Customer customer){
         if(customer.checkIfAnyValueIsBlankNullOrEmpty() == 0 && customer.getAddress().checkIfAnyValueIsBlankNullOrEmpty() == 0){
-            /*customerRepository.save(customer);*/
             customer = customerService.addCustomer(customer);
             if(customer != null){
                 return ResponseEntity.ok("Użytkownik został dodany!");

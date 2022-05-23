@@ -12,13 +12,14 @@ public class PowerLimitationService {
     public PowerLimitationRepository powerLimitationRepository;
 
     public PowerLimitation addPowerLimitation(PowerLimitation powerLimitation){
-        if(powerLimitation.getZipCode() == null || powerLimitation.getZipCode().isEmpty() || powerLimitation.getZipCode().isBlank()){
+        PowerLimitation checkIfExist = getPowerLimitationByZipCode(powerLimitation.getZipCode());
+        if(checkIfExist != null || powerLimitation.getZipCode() == null || powerLimitation.getZipCode().isEmpty() || powerLimitation.getZipCode().isBlank()){
             return null;
         }
         return powerLimitationRepository.save(powerLimitation);
     }
     public void updatePowerLimitation(PowerLimitation powerLimitation){
-        addPowerLimitation(powerLimitation); // same code will be used
+        powerLimitationRepository.save(powerLimitation);
     }
 
     public PowerLimitation getPowerLimitationByZipCode(String zipCode){

@@ -93,9 +93,9 @@ public class CustomerService {
         if (customer.checkIfAnyValueIsBlankNullOrEmpty() == 0 && customer.getAddress().checkIfAnyValueIsBlankNullOrEmpty() == 0) {
 
             String customerZipCode = customer.getAddress().getZipCode();
-            PowerLimitation powerLimitation = powerLimitationRepository.getByZipCode(customerZipCode);
+            PowerLimitation powerLimitation = powerLimitationService.getPowerLimitationByZipCode(customerZipCode);
             if(powerLimitation == null){
-                powerLimitation = powerLimitationRepository.getByZipCode(customerZipCode.substring(0, customerZipCode.indexOf('-')).trim());
+                powerLimitation = powerLimitationService.getPowerLimitationByZipCode(customerZipCode.substring(0, customerZipCode.indexOf('-')).trim());
             }
             if(powerLimitation != null){
                 int avaiableValue = powerLimitation.getPowerLimit()-powerLimitation.getUsedPower();
@@ -116,7 +116,7 @@ public class CustomerService {
                     return customer;
                 }
             }else {
-                powerLimitation = powerLimitationRepository.getByZipCode("default");
+                powerLimitation = powerLimitationService.getPowerLimitationByZipCode("default");
                 if(powerLimitation.getPowerLimit() >= customer.getKwValue()){
                     customer = customerRepository.save(customer);
                     logger.info("Added customer");

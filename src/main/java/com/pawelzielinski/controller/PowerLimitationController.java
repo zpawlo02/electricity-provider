@@ -3,6 +3,7 @@ package com.pawelzielinski.controller;
 
 import com.pawelzielinski.model.PowerLimitation;
 import com.pawelzielinski.repository.PowerLimitationRepository;
+import com.pawelzielinski.service.PowerLimitationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,17 +12,19 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
+@CrossOrigin
 public class PowerLimitationController {
 
     @Autowired
     private PowerLimitationRepository powerLimitationRepository;
 
+    @Autowired
+    private PowerLimitationService powerLimitationService;
+
     @PostMapping(path = "/addPowerLimitation")
     public ResponseEntity<String> addPowerLimitation(@RequestBody PowerLimitation powerLimitation){
-        if(powerLimitation.getZipCode() == null || powerLimitation.getZipCode().isBlank() || powerLimitation.getZipCode().isEmpty()){
-            return ResponseEntity.ok("Podane dane są niepoprawne!");
-        }
-        powerLimitationRepository.save(powerLimitation);
+
+        powerLimitationService.addPowerLimitation(powerLimitation);
         return ResponseEntity.ok("Added power limitation");
     }
 
@@ -32,7 +35,7 @@ public class PowerLimitationController {
 
     @GetMapping(path = "/powerLimitationByZipCode")
     public ResponseEntity<PowerLimitation> getPowerLimitationByZipCode(@RequestBody String zipCode){
-        return ResponseEntity.ok(powerLimitationRepository.getByZipCode(zipCode));
+        return ResponseEntity.ok(powerLimitationService.getPowerLimitationByZipCode(zipCode));
     }
 
     @PostMapping(path = "/powerLimitationUpdate/{id}")
