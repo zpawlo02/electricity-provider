@@ -8,6 +8,7 @@ import com.pawelzielinski.repository.CustomerRepositoryImpl;
 import com.pawelzielinski.repository.PowerLimitationRepository;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQuery;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,15 +133,37 @@ public class CustomerService {
     //which means how many services got one customer and next we are getting map from it
     //stream is filtered if count value is not greater than 1 value is not added to map
     public Map<Object, Object> getCustomerNameAndServicesCount(){
+        final int customersCountField = 2;
+        final int customerFirstNameField = 0;
+        final int customerLastNameField = 1;
+        final long numberOfCustomersDuplicates = 1;
         return customerRepositoryImpl
                 .findAllDuplicatesGroupByFirstNameAndLastName()
-                .stream()
-                .filter(t -> t.get(2, Long.class) > 1L).
+                .stream().map(CustomerResult::new)
+                .filter(customerTuple -> customerTuple.getServicesCount() > numberOfCustomersDuplicates).
                 collect(
                         Collectors.toMap(
-                                t ->  t.get(0, Object.class) + " " + t.get(1, Object.class),
-                                t -> t.get(2, Object.class)
+                                customerTuple ->  customerTuple.getFirstName() + " " + customerTuple.getLastName(),
+                                customerTuple -> customerTuple.getServicesCount()
                         ));
 
+    }
+}
+
+@Getter
+class CustomerResult{
+
+    private String firstName;
+    private String lastName;
+    private long servicesCount;
+
+    public CustomerResult(Tuple customerTuple){
+        final int customersCountField = 2;
+        final int customerFirstNameField = 0;
+        final int customerLastNameField = 1;
+
+        this.firstName = customerTuple.get(customerFirstNameField, String.class);
+        this.lastName = customerTuple.get(customerLastNameField, String.class);
+        this.servicesCount = customerTuple.get(customersCountField, Long.class);
     }
 }

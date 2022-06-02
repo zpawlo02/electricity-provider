@@ -8,7 +8,8 @@ import com.pawelzielinski.repository.CustomerRepository;
 import com.pawelzielinski.service.CustomerService;
 import com.pawelzielinski.service.PowerLimitationService;
 import org.junit.Before;
-import org.junit.jupiter.api.Test;
+import org.junit.*;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,29 +21,39 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
-import java.util.Map;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @EnableAutoConfiguration
 @EnableJpaRepositories("com.pawelzielinski*")
 @ComponentScan({"com.pawelzielinski*"})
-class ElectricityProviderApplicationTests {
+public class PowerLimitationServiceTest {
 
-	@Test
-	void contextLoads(){
 
-	}
+    @Autowired
+    PowerLimitationService powerLimitationService;
 
-	@Before
-	public void setUp(){
+    @Test
+    public void addNewPowerLimitationWithNullZipCode(){
+        //GIVEN
+        PowerLimitation powerLimitation = new PowerLimitation(2000, 0, null);
+        //WHEN
+        powerLimitation = powerLimitationService.addPowerLimitation(powerLimitation);
+        //THEN
+        assertNull(powerLimitation);
+    }
 
-	}
-
+    @Test
+    public void addDefaultPowerLimitation(){
+        //GIVEN
+        PowerLimitation powerLimitationDefault = new PowerLimitation(1000, 0, "default");
+        //WHEN
+        powerLimitationDefault = powerLimitationService.addPowerLimitation(powerLimitationDefault);
+        //THEN
+        assertNotNull(powerLimitationDefault);
+    }
 }
-
